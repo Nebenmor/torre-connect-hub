@@ -456,7 +456,7 @@ const ProfileModal = ({ person, isOpen, onClose }) => {
   );
 };
 
-const StatsCard = ({ icon: Icon, title, value, color }) => (
+const StatsCard = ({ title, value, color }) => (
   <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
     <div className="flex items-center">
       <div className={`p-3 rounded-lg bg-${color}-100`}>
