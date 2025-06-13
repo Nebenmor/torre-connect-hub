@@ -51,9 +51,9 @@ const mockSearchResults = [
 
 // API Configuration - Using window.location for environment detection
 const API_BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:3001"
-    : "https://your-backend-domain.vercel.app";
+  import.meta.env.MODE === "production"
+    ? "https://torre-connect-448m0qyw9-anthony-nebenmors-projects.vercel.app"
+    : "http://localhost:3001";
 
 // API Service Layer
 class TorreApiService {
