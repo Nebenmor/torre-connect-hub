@@ -52,7 +52,7 @@ const mockSearchResults = [
 // API Configuration - Using window.location for environment detection
 const API_BASE_URL =
   import.meta.env.MODE === "production"
-    ? "https://torre-connect-448m0qyw9-anthony-nebenmors-projects.vercel.app"
+    ? "https://torre-connect-hub.vercel.app/"
     : "http://localhost:3001";
 
 // API Service Layer
