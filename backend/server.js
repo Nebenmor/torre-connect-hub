@@ -5,14 +5,16 @@ const axios = require("axios");
 const rateLimit = require("express-rate-limit");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? ["https://your-frontend-domain.vercel.app"]
+        ? [
+            "https://torre-connect-hub.vercel.app",
+            "https://torre-connect-nixj4bln1-anthony-nebenmors-projects.vercel.app",
+          ]
         : ["http://localhost:3000", "http://localhost:5173"],
     credentials: true,
   })
@@ -30,14 +32,15 @@ const limiter = rateLimit({
   },
 });
 
-app.use("/api/", limiter);
+app.use("/api", limiter);
 
 // Health check endpoint
-app.get("/health", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.json({
     status: "OK",
     timestamp: new Date().toISOString(),
     service: "Torre Connect Hub API",
+    environment: process.env.NODE_ENV || "development",
   });
 });
 
@@ -197,14 +200,18 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Torre Connect Hub API running on port ${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/health`);
-  console.log(`🔍 Search endpoint: http://localhost:${PORT}/api/search`);
-  console.log(
-    `👤 Genome endpoint: http://localhost:${PORT}/api/genome/:username`
-  );
-});
+// For local development
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`🚀 Torre Connect Hub API running on port ${PORT}`);
+    console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+    console.log(`🔍 Search endpoint: http://localhost:${PORT}/api/search`);
+    console.log(
+      `👤 Genome endpoint: http://localhost:${PORT}/api/genome/:username`
+    );
+  });
+}
 
+// Export for Vercel
 module.exports = app;
